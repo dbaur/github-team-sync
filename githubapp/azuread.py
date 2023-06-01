@@ -2,6 +2,7 @@ import os
 import json
 import logging
 from distutils.util import strtobool
+import re
 import requests
 import msal
 
