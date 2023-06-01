@@ -28,6 +28,7 @@ class AzureAD:
             "AZURE_USERNAME_ATTRIBUTE", "userPrincipalName"
         )
         self.AZURE_USER_IS_UPN = strtobool(os.environ.get("AZURE_USER_IS_UPN", "False"))
+        self.AZURE_USER_IS_MAIL = strtobool(os.environ.get("AZURE_USER_IS_MAIL", "False"))
         self.AZURE_USE_TRANSITIVE_GROUP_MEMBERS = strtobool(
             os.environ.get("AZURE_USE_TRANSITIVE_GROUP_MEMBERS", "False")
         )
@@ -108,6 +109,9 @@ class AzureAD:
                     username = user_info[self.USERNAME_ATTRIBUTE]
                 if self.AZURE_USER_IS_UPN:
                     username = username.split("@")[0]
+                if self.AZURE_USER_IS_MAIL:
+                    username = username.split("@")[0]
+                    username = re.sub('[^0-9a-zA-Z-]+', '-', username)
                 user = {
                     "username": username,
                     "email": user_info["mail"],
