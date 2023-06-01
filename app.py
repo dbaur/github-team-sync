@@ -21,6 +21,7 @@ from githubapp import (
     TEST_MODE,
     ADD_MEMBER,
     REMOVE_ORG_MEMBERS_WITHOUT_TEAM,
+    IGNORE_ORG_OWNERS_DURING_REMOVE,
     USER_SYNC_ATTRIBUTE,
     SYNCMAP_ONLY,
 )
@@ -131,7 +132,7 @@ def github_team_info(client=None, owner=None, team_id=None):
 
 
 def github_team_members(
-    client=None, owner=None, team_id=None, attribute="username", ignore_users=[]
+        client=None, owner=None, team_id=None, attribute="username", ignore_users=[]
 ):
     """
     Look up members of a given team in GitHub
@@ -336,6 +337,9 @@ def remove_org_members_without_team(installations):
                     member for team in org.teams() for member in team.members()
                 ]
                 remove_members = list(set(org_members) - set(team_members))
+                if IGNORE_ORG_OWNERS_DURING_REMOVE:
+                    org_owners = [member for member in org.members(role="maintainer")]
+                    remove_members = list(set(remove_members) - set(org_owners))
                 for member in remove_members:
                     print(f"Removing {member}")
                     if not TEST_MODE:

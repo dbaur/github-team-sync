@@ -41,7 +41,7 @@ except ValueError as e:
 # Check if should add member to organization
 ADD_MEMBER = strtobool(os.environ.get("ADD_MEMBER", "False"))
 REMOVE_ORG_MEMBERS_WITHOUT_TEAM = strtobool(
-    os.environ.get("REMOVE_ORG_MEMBERS_WITHOUT_TEAM", "False")
-)
+    os.environ.get("REMOVE_ORG_MEMBERS_WITHOUT_TEAM", "False"))
+IGNORE_ORG_OWNERS_DURING_REMOVE = strtobool(os.environ.get("IGNORE_ORG_OWNERS_DURING_REMOVE", "False"))
 USER_SYNC_ATTRIBUTE = os.environ.get("USER_SYNC_ATTRIBUTE", "username").lower()
 SYNCMAP_ONLY = strtobool(os.environ.get("SYNCMAP_ONLY", "False"))
